@@ -1,6 +1,7 @@
 import os
 from typing import Dict
 
+import aiomysql
 from dotenv import load_dotenv
 
 
