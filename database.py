@@ -20,3 +20,30 @@ DB_CONFIG : Dict[str, any] = {
     'db' : os.getenv('DB_NAME', 'user_db'),
     'autocommit' : True
 }
+
+_pool: aiomysql.Pool = None
+
+async def get_pool():
+    global _pool
+    if _pool is None:
+        _pool = await aiomysql.create_pool(**DB_CONFIG, minsize=1, maxsize=5) # type: ignore
+    return _pool
+
+async def close_pool():
+    global _pool
+
+    if _pool:
+        _pool.close()
+        await _pool.wait_closed()
+        _pool = None
+
+@asynccontextmanager
+async def get_db_connection():
+    pool = await get_pool()
+    async with pool.acquire() as conn:
+        try:
+            yield conn
+        except Exception as e:
+            await conn.rollback()
+            raise e
+
