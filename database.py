@@ -47,3 +47,22 @@ async def get_db_connection():
             await conn.rollback()
             raise e
 
+async def init_database():
+    async with get_db_connection as conn:
+        async with conn.cursor() as cursor:
+
+            user_tabel_sql = """
+            
+            CREATE TABLE IF NOT EXISTS users (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            name varchar(100) NOT NULL,
+            email varchar(100) UNIQUE,
+            age INT NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP
+            )
+            
+            """
+
+            await cursor.execute(user_tabel_sql)
+            await cursor.commit()
