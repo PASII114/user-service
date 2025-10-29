@@ -5,3 +5,9 @@ import service
 from models import UserCreate
 
 router = APIRouter(prefix="/users")
+
+
+@router.post("/", status_code=status.HTTP_201_CREATED)
+async def create_user(user: UserCreate):
+    await service.create_user(user)
+    return "User Created Successfully"
