@@ -20,5 +20,5 @@ class UserResponse(UserBase):
 
 class UserUpdate(UserBase):
     name: Optional[str] = Field(None, max_length=100)
-    email = Optional[EmailStr] = None
+    email: Optional[EmailStr] = None
     age: Optional[int] = Field(None, ge=0, le=120)
