@@ -66,4 +66,3 @@ async def init_database():
             """
 
             await cursor.execute(user_tabel_sql)
-            await cursor.commit()
