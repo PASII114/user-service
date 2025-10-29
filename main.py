@@ -1,5 +1,4 @@
 from contextlib import asynccontextmanager
-from fileinput import close
 
 from fastapi import FastAPI
 
