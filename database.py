@@ -49,7 +49,7 @@ async def get_db_connection():
             raise e
 
 async def init_database():
-    async with get_db_connection as conn:
+    async with get_db_connection() as conn:
         async with conn.cursor() as cursor:
 
             user_tabel_sql = """
