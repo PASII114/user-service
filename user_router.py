@@ -2,7 +2,7 @@ from fastapi import APIRouter
 from starlette import status
 
 import service
-from models import UserCreate
+from models import UserCreate, UserResponse
 
 router = APIRouter(prefix="/users")
 
