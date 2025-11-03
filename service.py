@@ -100,5 +100,5 @@ async def delete_user_by_id(id: int):
             await delete_cursor.execute(query, (id, ))
             result = await delete_cursor.fetchone()
             if result:
-                return result == []
+                return result.pop(id)
             return None
