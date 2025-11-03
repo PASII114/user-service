@@ -1,6 +1,7 @@
 from typing import Optional, List
 
 import aiomysql
+from pydantic import EmailStr
 
 from database import get_db_connection
 from models import UserCreate, UserResponse
