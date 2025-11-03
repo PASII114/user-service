@@ -38,12 +38,35 @@ async def get_user_by_email(email: str) -> UserResponse:
             query = "SELECT * FROM users WHERE email = %s"
             await fetch_cursor.execute(query, (email, ))
             result = await fetch_cursor.fetchone()  # {'id' : 1, 'name' : 'test}
+            if result:
+                return UserResponse(
+                    id=result['id'],
+                    name=result['name'],
+                    email=result['email'],
+                    age=result['age'],
+                    created_at=result['created_at'],
+                    updated_at=result['updated_at']
+                )
+            return None
 
-            return UserResponse(
-                id=result['id'],
-                name=result['name'],
-                email=result['email'],
-                age=result['age'],
-                created_at=result['created_at'],
-                updated_at=result['updated_at']
-            )
+async def get_all_users(limit: int, offset: int) -> List[UserResponse]:
+
+    async with get_db_connection() as conn:
+        async with conn.cursor(aiomysql.DictCursor) as fetch_cursor:
+            query = "SELECT * FROM users ORDER by id LIMIT %s OFFSET %s"
+            await fetch_cursor.execute(query, (limit, offset))
+            results = await fetch_cursor.fetchall()  # {'id' : 1, 'name' : 'test}
+            user_resp_list: List[UserResponse] = []
+
+            if len(results) > 0:
+                for result in results:
+                    user = UserResponse(
+                        id=result['id'],
+                        name=result['name'],
+                        email=result['email'],
+                        age=result['age'],
+                        created_at=result['created_at'],
+                        updated_at=result['updated_at']
+                    )
+                    user_resp_list.append(user)
+            return user_resp_list
