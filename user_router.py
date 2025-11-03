@@ -1,5 +1,6 @@
 from fastapi import APIRouter
 from starlette import status
+from starlette.exceptions import HTTPException
 
 import service
 from models import UserCreate, UserResponse
