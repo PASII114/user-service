@@ -15,3 +15,8 @@ async def create_user(user: UserCreate):
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="User already exists")
 
     return await service.create_user(user)
+
+
+@router.get("/", status_code=status.HTTP_200_OK)
+async def get_users(limit: int = 10, offset: int = 0) -> List[UserResponse]:
+    return await service.get_all_users(limit, offset)
