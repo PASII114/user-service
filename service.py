@@ -46,4 +46,4 @@ async def get_user_by_email(email: str) -> UserResponse:
                 age=result['age'],
                 created_at=result['created_at'],
                 updated_at=result['updated_at']
-            )hi
+            )
