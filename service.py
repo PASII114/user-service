@@ -5,7 +5,7 @@ from models import UserCreate, UserResponse
 
 
 
-async def create_user(user: UserCreate) -> None:
+async def create_user(user: UserCreate) -> UserResponse:
 
     async with get_db_connection() as conn:
         async with conn.cursor() as cursor:
