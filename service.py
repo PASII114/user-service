@@ -2,6 +2,8 @@ from typing import Optional, List
 
 import aiomysql
 from pydantic import EmailStr
+from starlette import status
+from starlette.exceptions import HTTPException
 
 from database import get_db_connection
 from models import UserCreate, UserResponse, UserPatch
