@@ -70,3 +70,32 @@ async def get_all_users(limit: int, offset: int) -> List[UserResponse]:
                     )
                     user_resp_list.append(user)
             return user_resp_list
+
+async def get_user_by_id(id: int) -> Optional[UserResponse]:
+
+    async with get_db_connection() as conn:
+        async with conn.cursor(aiomysql.DictCursor) as fetch_cursor:
+            query = "SELECT * FROM users WHERE id = %s"
+            await fetch_cursor.execute(query, (id, ))
+            result = await fetch_cursor.fetchone()  # {'id' : 1, 'name' : 'test}
+            if result:
+                return UserResponse(
+                    id=result['id'],
+                    name=result['name'],
+                    email=result['email'],
+                    age=result['age'],
+                    created_at=result['created_at'],
+                    updated_at=result['updated_at']
+                )
+            return None
+
+async def delete_user_by_id(id: int):
+
+    async with get_db_connection() as conn:
+        async with conn.cursor() as delete_cursor:
+            query = "DELETE FROM users WHERE id = %s"
+            await delete_cursor.execute(query, (id, ))
+            result = await delete_cursor.fetchone()
+            if result:
+                return result == []
+            return None
