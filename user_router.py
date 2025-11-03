@@ -37,3 +37,13 @@ async def delete_user_by_id(user_id: int):
     await service.delete_user_by_id(user_id)
 
     return {"info" : "User Deleted Successfully", "user" : existing_user}
+
+@router.put("/{user_id}")
+async def user_replace(user_id: int, user: UserReplace):
+    existing_user = await service.get_user_by_id(user_id)
+    if not existing_user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User Does Not Exists")
+
+    replaced_user = await service.replace_user(user_id, user)
+
+    return {"info" : "User Replaced Successfully", "user" : replaced_user}
