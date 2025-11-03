@@ -1,3 +1,5 @@
+import aiomysql
+
 from database import get_db_connection
 from models import UserCreate, UserResponse
 
