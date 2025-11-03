@@ -31,7 +31,7 @@ async def create_user(user: UserCreate) -> UserResponse:
                     updated_at=result['updated_at']
                 )
 
-async def get_user_by_email(email: str) -> UserResponse:
+async def get_user_by_email(email: EmailStr) -> Optional[UserResponse]:
 
     async with get_db_connection() as conn:
         async with conn.cursor(aiomysql.DictCursor) as fetch_cursor:
