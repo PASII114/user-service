@@ -10,6 +10,9 @@ class UserBase(BaseModel):
     email: EmailStr
     age: int = Field(..., ge=0, le=120)
 
+class UserReplace(UserBase):
+    pass
+
 class UserCreate(UserBase):
     pass
 
