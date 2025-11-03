@@ -47,3 +47,21 @@ async def user_replace(user_id: int, user: UserReplace):
     replaced_user = await service.replace_user(user_id, user)
 
     return {"info" : "User Replaced Successfully", "user" : replaced_user}
+
+
+@router.patch("/{user_id}", response_model=UserResponse, status_code=status.HTTP_200_OK)
+async def user_patch(user_id: int, user: UserPatch):
+
+    existing_user = await service.get_user_by_id(user_id)
+    if not existing_user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User does not exist"
+        )
+
+    updated_user = await service.patch_user(user_id, user)
+
+    return {
+        "info": "User updated successfully",
+        "user": updated_user
+    }
