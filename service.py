@@ -4,8 +4,7 @@ import aiomysql
 from pydantic import EmailStr
 
 from database import get_db_connection
-from models import UserCreate, UserResponse
-
+from models import UserCreate, UserResponse, UserUpdate
 
 
 async def create_user(user: UserCreate) -> UserResponse:
