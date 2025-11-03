@@ -21,7 +21,7 @@ class UserResponse(UserBase):
     created_at: datetime
     updated_at: datetime
 
-class UserUPatch(UserBase):
+class UserPatch(UserBase):
     name: Optional[str] = Field(None, max_length=100)
     email: Optional[EmailStr] = None
     age: Optional[int] = Field(None, ge=0, le=120)
