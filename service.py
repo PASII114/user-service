@@ -1,3 +1,5 @@
+from typing import Optional, List
+
 import aiomysql
 
 from database import get_db_connection
