@@ -5,7 +5,7 @@ from starlette import status
 from starlette.exceptions import HTTPException
 
 import service
-from models import UserCreate, UserResponse, UserUpdate, UserReplace
+from models import UserCreate, UserResponse, UserPatch, UserReplace
 
 router = APIRouter(prefix="/users")
 
