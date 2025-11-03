@@ -102,3 +102,15 @@ async def delete_user_by_id(id: int):
             if result:
                 return result.pop(id)
             return None
+
+async def replace_user(user_id, user) -> UserResponse:
+
+    async with get_db_connection() as conn:
+        async with conn.cursor() as cursor:
+            query = """ 
+            UPDATE users SET name = %s, email = %s, age = %s where id = %s
+            """
+
+            await cursor.execute(query, (user.name, user.email, user.age, user_id))
+
+            return await get_user_by_id(user_id)
