@@ -113,3 +113,29 @@ async def replace_user(user_id, user) -> UserResponse:
             await cursor.execute(query, (user.name, user.email, user.age, user_id))
 
             return await get_user_by_id(user_id)
+
+async def patch_user(user_id, user) -> Optional[UserResponse]:
+
+    async with get_db_connection() as conn:
+        async with conn.cursor() as cursor:
+            query_string_values = []
+            values = []
+
+            if user.name:
+                query_string_values.append("name = %s")
+                values.append(user.name)
+            if user.email:
+                query_string_values.append("email = %s")
+                values.append(user.email)
+            if user.age:
+                query_string_values.append("age = %s")
+                values.append(user.age)
+
+            if len(query_string_values) == 0:
+                raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="No fields to update")
+
+            query = f"UPDATE users SET {','.join(query_string_values)}, updated_at=CURRENT_TIMESTAMP where id = %s"
+            values.append(user_id)
+            await cursor.execute(query, values)
+
+            return await get_user_by_id(user_id)
